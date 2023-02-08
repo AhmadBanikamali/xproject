@@ -3,9 +3,7 @@
     package="com.abcdandroid.presenter">
 
     <application>
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+
     </application>
 
 </manifest>
