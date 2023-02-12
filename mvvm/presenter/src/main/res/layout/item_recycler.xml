@@ -5,16 +5,33 @@
     <data>
 
         <variable
-            name="name"
-            type="String" />
+            name="itemViewModel"
+            type="com.abcdandroid.presenter.datalist.adapter.ItemViewModel" />
+
     </data>
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{name}"
-        android:textColor="#b9c1cc"
-        android:textSize="14sp" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{itemViewModel.text,default = `test`}"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <CheckBox
+            android:id= "@+id/cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{itemViewModel.isChecked}"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>

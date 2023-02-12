@@ -1,6 +1,7 @@
 package com.abcdandroid.presenter.datalist
 
-import androidx.lifecycle.LiveData
+import android.util.SparseBooleanArray
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -19,14 +20,30 @@ class DetailListViewModel @Inject constructor(
     private val getData: GetData,
 ) : ViewModel() {
 
-    lateinit var a: LiveData<PagingData<String>>
+    lateinit var pagingData: MutableLiveData<PagingData<String>>
+    val itemStateArray: SparseBooleanArray = SparseBooleanArray()
+    var isFavorites = MutableLiveData(false)
 
     fun getData() {
         viewModelScope.launch {
-            a = Pager(config = PagingConfig(pageSize = 10), pagingSourceFactory = {
-                PassengersDataSource(getData)
-            }).liveData
+            pagingData =
+                Pager(config = PagingConfig(pageSize = 10), pagingSourceFactory = {
+                    PassengersDataSource(getData, isFavorites.value ?: false)
+                }).liveData as MutableLiveData<PagingData<String>>
         }
+    }
+
+    fun onCheckChange(position: Int,text:String, isChecked: Boolean) {
+        itemStateArray.put(position, isChecked)
+        println(text)
+    }
+
+    fun onFavorites(a: SparseBooleanArray) {
+        println(a.size())
+    }
+
+    fun showFavoritesState() {
+        isFavorites.value = isFavorites.value?.not()
     }
 
 }

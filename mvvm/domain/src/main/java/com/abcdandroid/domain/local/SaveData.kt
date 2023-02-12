@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class SaveData @Inject constructor (private val repository: Repository) {
 
-   suspend operator fun invoke(data:String){
+   suspend operator fun invoke(data:List<String>){
         return repository.addDataToFavorite(data)
     }
 }

@@ -8,14 +8,14 @@ import javax.inject.Singleton
 @Singleton
 class RepositoryImpl @Inject constructor(private val remoteData: RemoteData) : Repository {
     override suspend fun getSavedData(): List<String> {
-        return remoteData.getData(1)
+        return listOf()
     }
 
     override suspend fun getRemoteData(pageNumber: Int): List<String> {
         return remoteData.getData(pageNumber)
     }
 
-    override suspend fun addDataToFavorite(favorite: String) {
+    override suspend fun addDataToFavorite(favorite: List<String>) {
 
     }
 }

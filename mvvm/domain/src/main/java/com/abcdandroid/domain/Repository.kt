@@ -6,6 +6,6 @@ interface Repository {
 
     suspend fun getRemoteData(pageNumber: Int): List<String>
 
-    suspend fun addDataToFavorite(favorite: String)
+    suspend fun addDataToFavorite(favorite: List<String>)
 
 }

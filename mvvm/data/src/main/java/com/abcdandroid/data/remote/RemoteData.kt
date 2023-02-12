@@ -7,8 +7,8 @@ class RemoteData @Inject constructor(private val remoteService: RemoteService) {
 
     suspend fun getData(pageNumber: Int): List<String> {
         return remoteService.getPassengers(pageNumber).data?.map {
-            it?.name ?: "null"
-        } ?: listOf("aaa")
+            it?.name ?: ""
+        } ?: listOf()
     }
 
 }

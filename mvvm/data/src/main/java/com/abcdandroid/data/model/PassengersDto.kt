@@ -1,6 +1,6 @@
 package com.abcdandroid.data.model
 
-data class Passengers(
+data class PassengersDto(
 	val totalPassengers: Int? = null,
 	val data: List<DataItem?>? = null,
 	val totalPages: Int? = null

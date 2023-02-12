@@ -12,11 +12,34 @@
 
 
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/add_to_favorites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{v->item.onFavorites(item.itemStateArray)}"
+        android:text="add to favorites"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+
+        android:id="@+id/show_favorites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="show favorite"
+        android:onClick="@{v->item.showFavoritesState()}"
+        />
+
+</RelativeLayout>
 
 
 </layout>

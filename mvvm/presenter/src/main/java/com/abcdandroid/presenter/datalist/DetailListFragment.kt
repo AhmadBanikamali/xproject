@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.abcdandroid.presenter.BR
 import com.abcdandroid.presenter.R
@@ -24,12 +25,7 @@ class DetailListFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailListBinding
 
-
     var passengersAdapter: PassengersAdapter = PassengersAdapter()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,23 +37,24 @@ class DetailListFragment : Fragment() {
         binding.setVariable(BR.item, viewModel)
         viewModel.getData()
 
-        viewModel.a.observe(viewLifecycleOwner) {
+        viewModel.pagingData.observe(viewLifecycleOwner) {
             lifecycleScope.launch {
                 passengersAdapter.submitData(it)
             }
         }
 
+
+
+
         binding.rv.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = passengersAdapter
+            adapter = passengersAdapter.also {
+                it.setOnCheckboxClick(viewModel.itemStateArray, viewModel::onCheckChange)
+            }
         }
-
-
 
         return binding.root
     }
 
-    companion object {
-        fun newInstance(param1: String, param2: String) = DetailListFragment()
-    }
+
 }
