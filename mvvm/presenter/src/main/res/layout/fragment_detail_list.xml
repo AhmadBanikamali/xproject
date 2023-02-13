@@ -25,7 +25,7 @@
         android:id="@+id/add_to_favorites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{v->item.onFavorites(item.itemStateArray)}"
+        android:onClick="@{v->item.onFavorites(item.favoriteItems)}"
         android:text="add to favorites"
         />
 

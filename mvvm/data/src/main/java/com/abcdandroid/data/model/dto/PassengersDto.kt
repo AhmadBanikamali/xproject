@@ -1,5 +1,7 @@
 package com.abcdandroid.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class PassengersDto(
 	val totalPassengers: Int? = null,
 	val data: List<DataItem?>? = null,
@@ -21,6 +23,8 @@ data class DataItem(
 	val trips: Int? = null,
 	val V: Int? = null,
 	val name: String? = null,
+
+	@SerializedName(value="_id")
 	val id: String? = null,
 	val airline: List<AirlineItem?>? = null
 )

@@ -1,18 +1,16 @@
 package com.abcdandroid.presenter.datalist.adapter
 
-import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.abcdandroid.presenter.databinding.ItemRecyclerBinding
-import javax.inject.Inject
 
-class PassengersAdapter @Inject constructor() :
+class PassengersAdapter :
     PagingDataAdapter<String, PassengersAdapter.ViewHolder>(PassengerComparator) {
-    private lateinit var itemStateArray: SparseBooleanArray
-    private lateinit var onCheckChange: (position: Int, data: String, isChecked: Boolean) -> Unit
+    private lateinit var itemStateArray: List<String>
+    private lateinit var onCheckChange: (data: String, isChecked: Boolean) -> Unit
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position) ?: "")
@@ -25,12 +23,13 @@ class PassengersAdapter @Inject constructor() :
         ))
     }
 
-    fun setOnCheckboxClick(
-        itemStateArray: SparseBooleanArray,
-        onCheckChange: (position: Int, data: String, isChecked: Boolean) -> Unit,
-    ) {
-        this.onCheckChange = onCheckChange
+    fun setItemsArray(itemStateArray: List<String>) {
         this.itemStateArray = itemStateArray
+        notifyDataSetChanged()
+    }
+
+    fun setOnCheckboxClick(onCheckChange: (data: String, isChecked: Boolean) -> Unit) {
+        this.onCheckChange = onCheckChange
     }
 
 
@@ -39,10 +38,9 @@ class PassengersAdapter @Inject constructor() :
 
         fun bind(data: String) {
             itemRecyclerBinding.apply {
-                itemViewModel =
-                    ItemViewModel(data, itemStateArray[bindingAdapterPosition])
+                itemViewModel = ItemViewModel(data, itemStateArray.contains(data))
                 cb.setOnCheckedChangeListener { buttonView, isChecked ->
-                    onCheckChange(bindingAdapterPosition, data, isChecked)
+                    onCheckChange(data, isChecked)
                     buttonView.isChecked = isChecked
                 }
             }

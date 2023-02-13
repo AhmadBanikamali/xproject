@@ -1,12 +1,16 @@
 package com.abcdandroid.di
 
+import android.content.Context
+import androidx.room.Room
 import com.abcdandroid.data.RepositoryImpl
+import com.abcdandroid.data.local.AppDatabase
 import com.abcdandroid.data.remote.RemoteService
 import com.abcdandroid.domain.Repository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -29,7 +33,16 @@ abstract class Module {
         @Provides
         @Singleton
         fun provideRemoteService(retrofit: Retrofit): RemoteService = retrofit.create()
+
+        @Provides
+        @Singleton
+        fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase = Room.databaseBuilder(context,AppDatabase::class.java,"x-database").build()
+
+        @Provides
+        @Singleton
+        fun providePassengersDao(appDatabase: AppDatabase) = appDatabase.getPassengersDao()
     }
+
 
     @Binds
     @Singleton

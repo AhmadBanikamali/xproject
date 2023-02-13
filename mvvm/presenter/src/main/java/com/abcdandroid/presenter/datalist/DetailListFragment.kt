@@ -16,6 +16,7 @@ import com.abcdandroid.presenter.databinding.FragmentDetailListBinding
 import com.abcdandroid.presenter.datalist.adapter.PassengersAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -25,7 +26,8 @@ class DetailListFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailListBinding
 
-    var passengersAdapter: PassengersAdapter = PassengersAdapter()
+    @Inject
+    lateinit var passengersAdapter: PassengersAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,21 +37,30 @@ class DetailListFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail_list, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.setVariable(BR.item, viewModel)
-        viewModel.getData()
+        viewModel.getRemoteData()
 
         viewModel.pagingData.observe(viewLifecycleOwner) {
+            viewModel.filteredPagingData.value = it
+        }
+
+        viewModel.filteredPagingData.observe(viewLifecycleOwner) {
             lifecycleScope.launch {
                 passengersAdapter.submitData(it)
             }
         }
 
+        viewModel.isFavoritesVisible.observe(viewLifecycleOwner) {
+            viewModel.filteredPagingData.value =
+                if (it) viewModel.pagingData.value else PagingData.from(viewModel.favoriteItems.value?: listOf())
+        }
 
+        viewModel.favoriteItems.observe(viewLifecycleOwner, passengersAdapter::setItemsArray)
 
 
         binding.rv.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = passengersAdapter.also {
-                it.setOnCheckboxClick(viewModel.itemStateArray, viewModel::onCheckChange)
+                it.setOnCheckboxClick(viewModel::onCheckChange)
             }
         }
 
