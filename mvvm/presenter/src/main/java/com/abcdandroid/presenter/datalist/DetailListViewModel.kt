@@ -15,16 +15,16 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailListViewModel @Inject constructor(
     getSavedData: GetData,
+    getData: com.abcdandroid.domain.remote.GetData,
     private val saveData: SaveData,
     private val removeData: RemoveData,
-    private val  passengersDataSource: PassengersDataSource
 ) : ViewModel() {
 
     var filteredPagingData: MutableLiveData<PagingData<String>> = MutableLiveData()
 
+    private val  passengersDataSource: PassengersDataSource = PassengersDataSource(getData)
     lateinit var pagingData: LiveData<PagingData<String>>
     val favoriteItems: LiveData<List<String>> = getSavedData()
-    val a = MediatorLiveData<Boolean> ()
 
     val isFavoritesVisible: MutableLiveData<Boolean> = MutableLiveData(true)
 
@@ -47,11 +47,6 @@ class DetailListViewModel @Inject constructor(
             }
 
     }
-
-    fun onFavorites(a: List<String>) {
-
-    }
-
 
 
     fun showFavoritesState() {

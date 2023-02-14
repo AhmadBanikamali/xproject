@@ -15,7 +15,4 @@ object Module {
     @Provides
     fun provideAdapter() = PassengersAdapter()
 
-
-    @Provides
-    fun providePassengerDataSource(getData: GetData) = PassengersDataSource(getData = getData)
 }

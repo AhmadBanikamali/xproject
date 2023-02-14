@@ -21,13 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/add_to_favorites"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="@{v->item.onFavorites(item.favoriteItems)}"
-        android:text="add to favorites"
-        />
 
     <androidx.appcompat.widget.AppCompatButton
 
@@ -35,8 +28,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="show favorite"
         android:onClick="@{v->item.showFavoritesState()}"
+        android:text="@{item.isFavoritesVisible()?`show favorites`:`show all`}" />
+
+    <ProgressBar
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pb"
+        android:visibility="gone"
         />
 
 </RelativeLayout>

@@ -10,7 +10,7 @@ import com.abcdandroid.presenter.databinding.ItemRecyclerBinding
 class PassengersAdapter :
     PagingDataAdapter<String, PassengersAdapter.ViewHolder>(PassengerComparator) {
     private lateinit var itemStateArray: List<String>
-    private lateinit var onCheckChange: (data: String, isChecked: Boolean) -> Unit
+    private lateinit var onCheckChange: (data: String , isChecked: Boolean) -> Unit
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position) ?: "")
@@ -25,10 +25,10 @@ class PassengersAdapter :
 
     fun setItemsArray(itemStateArray: List<String>) {
         this.itemStateArray = itemStateArray
-        notifyDataSetChanged()
     }
 
-    fun setOnCheckboxClick(onCheckChange: (data: String, isChecked: Boolean) -> Unit) {
+
+    fun setOnCheckboxClick(onCheckChange: (data: String , isChecked: Boolean) -> Unit) {
         this.onCheckChange = onCheckChange
     }
 
